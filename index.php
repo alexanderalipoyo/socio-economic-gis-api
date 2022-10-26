@@ -29,7 +29,7 @@ switch ($method){
     break;
     case "POST":
         $povertystat = json_decode( file_get_contents('php://input') );
-        $sql = "INSERT INTO rsep_poverty_statistics(id, location, indicators, sub_indicators, sector, year, value, unit) VALUES (null, :location, :indicators, :sub_indicators, :sector, :year, :value, :unit, :created_at)";
+        $sql = "INSERT INTO rsep_poverty_statistics(id, location, indicators, sub_indicators, sector, year, value, unit, created_at) VALUES (null, :location, :indicators, :sub_indicators, :sector, :year, :value, :unit, :created_at)";
         $stmt = $conn->prepare($sql);
         $created_at = date('Y-m-d');
         $stmt->bindParam(':location',$povertystat->location);
@@ -39,7 +39,7 @@ switch ($method){
         $stmt->bindParam(':year',$povertystat->year);
         $stmt->bindParam(':value',$povertystat->value);
         $stmt->bindParam(':unit',$povertystat->unit);
-        $stmt->bindParam(':created_at', $povertystat);
+        $stmt->bindParam(':created_at', $created_at);
         if($stmt->execute()) {
             $response = ['status' =>1, 'message' => 'Record created successfully,'];
         }else{
@@ -48,18 +48,18 @@ switch ($method){
         return json_encode($response);
     break;
     case "PUT":
-        $user = json_decode( file_get_contents('php://input') );
+        $povertystat = json_decode( file_get_contents('php://input') );
         $sql = " UPDATE rsep_poverty_statistics SET location = :location, indicators = :indicators, sub_indicators = :sub_indicators, sector = :sector , year = :year , value = :value , unit = :unit ,  updated_at = :updated_at WHERE id = :id ";
         $stmt = $conn->prepare($sql);
         $updated_at = date('Y-m-d');
-        $stmt->bindParam(':id',$user->id);
-        $stmt->bindParam(':location',$user->location);
-        $stmt->bindParam(':indicators',$user->indicators);
-        $stmt->bindParam(':sub_indicators',$user->sub_indicators);
-        $stmt->bindParam(':indicasectortors',$user->sector);
-        $stmt->bindParam(':year',$user->year);
-        $stmt->bindParam(':value',$user->value);
-        $stmt->bindParam(':unit',$user->unit);
+        $stmt->bindParam(':id',$povertystat->id);
+        $stmt->bindParam(':location',$povertystat->location);
+        $stmt->bindParam(':indicators',$povertystat->indicators);
+        $stmt->bindParam(':sub_indicators',$povertystat->sub_indicators);
+        $stmt->bindParam(':sector',$povertystat->sector);
+        $stmt->bindParam(':year',$povertystat->year);
+        $stmt->bindParam(':value',$povertystat->value);
+        $stmt->bindParam(':unit',$povertystat->unit);
         $stmt->bindParam(':updated_at', $updated_at);
         if($stmt->execute()) {
             $response = ['status' =>1, 'message' => 'Record updated successfully,'];
