@@ -29,11 +29,10 @@ switch ($method){
     break;
     case "POST":
         $povertystat = json_decode( file_get_contents('php://input') );
-        $sql = "INSERT INTO rsep_poverty_statistics(id, location, indicators, sub_indicators, sector, year, value, unit, created_at) VALUES (null, :location, :indicators, :sub_indicators, :sector, :year, :value, :unit, :created_at)";
+        $sql = "INSERT INTO rsep_poverty_statistics(id, location, sub_indicators, sector, year, value, unit, created_at) VALUES (null, :location, :sub_indicators, :sector, :year, :value, :unit, :created_at)";
         $stmt = $conn->prepare($sql);
         $created_at = date('Y-m-d');
         $stmt->bindParam(':location',$povertystat->location);
-        $stmt->bindParam(':indicators',$povertystat->indicators);
         $stmt->bindParam(':sub_indicators',$povertystat->sub_indicators);
         $stmt->bindParam(':sector',$povertystat->sector);
         $stmt->bindParam(':year',$povertystat->year);
@@ -49,12 +48,11 @@ switch ($method){
     break;
     case "PUT":
         $povertystat = json_decode( file_get_contents('php://input') );
-        $sql = " UPDATE rsep_poverty_statistics SET location = :location, indicators = :indicators, sub_indicators = :sub_indicators, sector = :sector , year = :year , value = :value , unit = :unit ,  updated_at = :updated_at WHERE id = :id ";
+        $sql = " UPDATE rsep_poverty_statistics SET location = :location, sub_indicators = :sub_indicators, sector = :sector , year = :year , value = :value , unit = :unit ,  updated_at = :updated_at WHERE id = :id ";
         $stmt = $conn->prepare($sql);
         $updated_at = date('Y-m-d');
         $stmt->bindParam(':id',$povertystat->id);
         $stmt->bindParam(':location',$povertystat->location);
-        $stmt->bindParam(':indicators',$povertystat->indicators);
         $stmt->bindParam(':sub_indicators',$povertystat->sub_indicators);
         $stmt->bindParam(':sector',$povertystat->sector);
         $stmt->bindParam(':year',$povertystat->year);
