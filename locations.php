@@ -11,7 +11,7 @@ $conn = $objDb->connect();
 $method = $_SERVER['REQUEST_METHOD'];
 switch ($method){
     case "GET":
-        $sql = "SELECT location_ID, location_Name FROM locations ";
+        $sql = "SELECT location_ID, location_Name FROM locations ORDER BY location_Name ASC";
         $path = explode('/', $_SERVER['REQUEST_URI']);
         if(isset($path[3]) && is_numeric($path[3])) {
             $sql .= " WHERE id = :id ";
